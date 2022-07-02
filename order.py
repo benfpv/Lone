@@ -1,14 +1,15 @@
 class Order:
-    def __init__(self, value, item):
+    def __init__(self, value, itemName, itemID):
         self.value = value
-        self.item = item
+        self.itemName = itemName
+        self.itemID = itemID
 
 class BuyOrder(Order):
-    def __init__(self, value, item, buyer):
-        super().__init__(value, item)
+    def __init__(self, value, itemName, itemID, buyer):
+        super().__init__(value, itemName, itemID)
         self.buyer = buyer
 
 class SellOrder(Order):
-    def __init__(self, value, item, seller):
-        super().__init__(value, item)
+    def __init__(self, value, itemName, itemID, seller):
+        super().__init__(value, itemName, itemID)
         self.seller = seller

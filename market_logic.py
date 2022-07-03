@@ -1,8 +1,10 @@
 class Market:
-    def __init__(self, buyOrders = [], sellOrders = [], users = {}) -> None:
+    def __init__(self, buyOrders = [], sellOrders = [], users = {}, buyOrdersFulfilled = [], sellOrdersFulfilled = []) -> None:
         self.buyOrders = buyOrders
         self.sellOrders = sellOrders
         self.users = users
+        self.buyOrdersFulfilled = buyOrdersFulfilled
+        self.sellOrdersFulfilled = sellOrdersFulfilled
 
     def print_orders(self):
         print("### BUY ORDERS ###")
@@ -44,6 +46,8 @@ class Market:
         for index, sell in enumerate(self.sellOrders):
             if buy.item.name == sell.item.name and \
                 buy.value > sell.value:
+                print('Buyer: {buyer}, Seller: {seller}, Item: {item}, Value: {value}'
+                .format(buyer=buy.buyer, seller=sell.seller, item=buy.item.name, value=buy.value))
                 return self.sellOrders.pop(index)
         return
         
@@ -51,5 +55,7 @@ class Market:
         for index, buy in enumerate(self.buyOrders):
             if sell.item.name == buy.item.name and \
                 sell.value < buy.value:
+                print('Buyer: {buyer}, Seller: {seller}, Item: {item}, Value: {value}'
+                .format(buyer=buy.buyer, seller=sell.seller, item=buy.item.name, value=buy.value))
                 return self.buyOrders.pop(index)
         return

@@ -17,8 +17,8 @@ def import_itemsList():
 def objectify_itemsList(itemsListCsv):
     itemsList = [] 
     for row in itemsListCsv:
-        itemsList.append(Items(row[0], row[1], row[2], row[3], row[4], row[5], row[6])) 
+        itemsList.append(Item(row[0], row[1], row[2], row[3], row[4], row[5], row[6])) 
     return itemsList
 
 itemsListCsv = import_itemsList() 
-itemsList = objectify_itemsList(itemsListCsv) 
+itemsList = objectify_itemsList(itemsListCsv)

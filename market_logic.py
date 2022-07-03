@@ -7,12 +7,12 @@ class Market:
         print("### BUY ORDERS ###")
         for buy in self.buyOrders:
             print('Buyer: {buyer}, Item: {item}, Value: {value}'
-            .format(buyer=buy.buyer, item=buy.itemName, value=buy.value))
+            .format(buyer=buy.buyer, item=buy.item.name, value=buy.value))
         
         print("### SELL ORDERS ###")
         for sell in self.sellOrders:
             print('Seller: {seller}, Item: {item}, Value: {value}'
-            .format(seller=sell.seller, item=sell.itemName, value=sell.value))
+            .format(seller=sell.seller, item=sell.item.name, value=sell.value))
 
     def addBuyOrder(self, buy):
         boughtOrder = self.buyFulfillment(buy)
@@ -37,14 +37,14 @@ class Market:
 
     def buyFulfillment(self, buy):
         for index, sell in enumerate(self.sellOrders):
-            if buy.itemName == sell.itemName and \
+            if buy.item.name == sell.item.name and \
                 buy.value > sell.value:
                 return self.sellOrders.pop(index)
         return
         
     def sellFulfillment(self, sell):
         for index, buy in enumerate(self.buyOrders):
-            if sell.itemName == buy.itemName and \
+            if sell.item.name == buy.item.name and \
                 sell.value < buy.value:
                 return self.buyOrders.pop(index)
         return

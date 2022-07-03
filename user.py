@@ -28,3 +28,9 @@ class User:
 	def sellOrderFulfilled(self, order):
 		self.money += order.value
 		self.inventory.pop(order.item.name)
+
+	def cancelBuy(self, market: Market, item):
+		pass
+
+	def cancelSell(self, market: Market, item):
+		pass

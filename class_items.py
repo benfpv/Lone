@@ -1,4 +1,4 @@
-class ItemsList:
+class Items:
     def __init__(self, id, name, tags, description, dateOfManufacture, dimensions, weight):
         self.id = id
         self.name = name

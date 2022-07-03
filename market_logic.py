@@ -19,7 +19,7 @@ class Market:
         self.users[user.name] = user
 
     def addBuyOrder(self, buy):
-        boughtOrder = self.buyFulfillment(buy)
+        boughtOrder = self._buyFulfillment(buy)
         if not boughtOrder:
             i = 0
             while (i < len(self.buyOrders) and buy.value < self.buyOrders[i].value):
@@ -31,7 +31,7 @@ class Market:
             return boughtOrder
 
     def addSellOrder(self, sell):
-        soldOrder = self.sellFulfillment(sell)
+        soldOrder = self._sellFulfillment(sell)
         if not soldOrder:
             i = 0
             while (i < len(self.sellOrders) and sell.value > self.sellOrders[i].value):
@@ -40,14 +40,14 @@ class Market:
         else:
             return soldOrder
 
-    def buyFulfillment(self, buy):
+    def _buyFulfillment(self, buy):
         for index, sell in enumerate(self.sellOrders):
             if buy.item.name == sell.item.name and \
                 buy.value > sell.value:
                 return self.sellOrders.pop(index)
         return
         
-    def sellFulfillment(self, sell):
+    def _sellFulfillment(self, sell):
         for index, buy in enumerate(self.buyOrders):
             if sell.item.name == buy.item.name and \
                 sell.value < buy.value:

@@ -5,12 +5,13 @@ class Market:
         self.users = users
 
     def print_orders(self):
-        print("### BUY ORDERS ###")
+        print('### PRINT ORDERS ###');
+        print("- BUY ORDERS:")
         for buy in self.buyOrders:
             print('Buyer: {buyer}, Item: {item}, Value: {value}'
                 .format(buyer=buy.buyer, item=buy.item.name, value=buy.value))
         
-        print("### SELL ORDERS ###")
+        print("- SELL ORDERS: ")
         for sell in self.sellOrders:
             print('Seller: {seller}, Item: {item}, Value: {value}'
                 .format(seller=sell.seller, item=sell.item.name, value=sell.value))

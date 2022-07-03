@@ -31,6 +31,3 @@ if __name__ == '__main__':
 	#market.addSellOrder(order3)
 
 	market.print_orders()
-
-	#itemsList = []
-	#itemsList.append(Item("apple", "fruit", "2/2/2222"))

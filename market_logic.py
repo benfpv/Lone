@@ -1,7 +1,8 @@
 class Market:
-    def __init__(self, buyOrders = [], sellOrders = []) -> None:
+    def __init__(self, buyOrders = [], sellOrders = [], users = {}) -> None:
         self.buyOrders = buyOrders
         self.sellOrders = sellOrders
+        self.users = users
 
     def print_orders(self):
         print("### BUY ORDERS ###")
@@ -14,6 +15,9 @@ class Market:
             print('Seller: {seller}, Item: {item}, Value: {value}'
             .format(seller=sell.seller, item=sell.item.name, value=sell.value))
 
+    def add_user(self,user):
+        self.users[user.name] = user
+
     def addBuyOrder(self, buy):
         boughtOrder = self.buyFulfillment(buy)
         if not boughtOrder:
@@ -23,6 +27,7 @@ class Market:
             self.buyOrders.insert(i, buy)
             return
         else:
+            self.users[boughtOrder.seller].sellOrderFulfilled(boughtOrder)
             return boughtOrder
 
     def addSellOrder(self, sell):

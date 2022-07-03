@@ -46,5 +46,5 @@ class Market:
         for index, buy in enumerate(self.buyOrders):
             if sell.itemName == buy.itemName and \
                 sell.value < buy.value:
-                return buy.sellOrders.pop(index)
+                return self.buyOrders.pop(index)
         return

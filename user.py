@@ -1,7 +1,7 @@
 from market_logic import Market
 
 class User:
-	def __init__(self, userID name, stocks = [], money = 1000) -> None:
+	def __init__(self, userID, name, stocks = [], money = 1000) -> None:
 		self.userID = userID
 		self.name = name
 		self.stocks = stocks

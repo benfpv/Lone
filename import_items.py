@@ -1,6 +1,6 @@
 import csv
 
-from class_items import *
+from class_items import Item
 
 def import_itemsList():
     itemsList = [] 

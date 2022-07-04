@@ -7,7 +7,7 @@ class Market:
         self.users = users
 
     def print_orders(self):
-        print('### PRINT ORDERS ###');
+        print('### MARKET.PRINT_ORDERS() ###');
         print("- BUY ORDERS:")
         for buy in self.buyOrders:
             print('\tBuyer: {buyer}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
@@ -61,8 +61,8 @@ class Market:
         for index, sell in enumerate(self.sellOrders):
             if buy.item.name == sell.item.name and \
                 buy.value > sell.value:
-                print("\nOrder was fulfilled!")
-                print('Buyer: {buyer}, Seller: {seller} Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
+                print("- ORDER FULFILLED:")
+                print('\tBuyer: {buyer}, Seller: {seller} Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
                     .format(buyer=buy.buyer, seller=sell.seller, item=buy.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S")))
                 return self.sellOrders.pop(index)
         return
@@ -71,8 +71,8 @@ class Market:
         for index, buy in enumerate(self.buyOrders):
             if sell.item.name == buy.item.name and \
                 sell.value < buy.value:
-                print("Order was fulfilled!")
-                print('Buyer: {buyer}, Seller:{seller} Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
+                print("- ORDER FULFILLED:")
+                print('\tBuyer: {buyer}, Seller:{seller} Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
                     .format(buyer=buy.buyer, seller=sell.seller, item=buy.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S")))
                 return self.buyOrders.pop(index)
         return

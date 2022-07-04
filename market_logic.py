@@ -16,7 +16,7 @@ class Market:
         print("- SELL ORDERS: ")
         for sell in self.sellOrders:
             print('\tSeller: {seller}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
-                .format(seller=sell.seller, item=sell.item.name, value=sell.value, marketDate=date.today().strftime("%d %m/ Y"), marketTime=datetime.now().strftime("%H %M %S")))
+                .format(seller=sell.seller, item=sell.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S")))
 
     def add_user(self,user):
         self.users[user.name] = user

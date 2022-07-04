@@ -1,6 +1,6 @@
 from market_logic import Market
 from order import BuyOrder, SellOrder
-from class_items import Items
+from class_items import *
 
 class User:
 	def __init__(self, userID, name, inventory = {}, money = 1000, ) -> None:
@@ -11,7 +11,7 @@ class User:
 		self.buyOrders = []
 		self.sellOrders = []
 
-	def buy(self, market: Market, value, item: Items):
+	def buy(self, market: Market, value, item: Item):
 		if value <= self.money:
 			self.money -= value
 			buying = BuyOrder(value, item, self.name)
@@ -26,7 +26,7 @@ class User:
 		else:
 			print("You don't have have enough money!")
 
-	def sell(self, market: Market, value, item: Items):
+	def sell(self, market: Market, value, item: Item):
 		if item.name in self.inventory:
 			selling = SellOrder(value, item, self.name)
 			self.sellOrders.append(selling)

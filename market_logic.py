@@ -8,12 +8,12 @@ class Market:
         print('### PRINT ORDERS ###');
         print("- BUY ORDERS:")
         for buy in self.buyOrders:
-            print('Buyer: {buyer}, Item: {item}, Value: {value}'
+            print('\tBuyer: {buyer}, Item: {item}, Value: {value}'
                 .format(buyer=buy.buyer, item=buy.item.name, value=buy.value))
         
         print("- SELL ORDERS: ")
         for sell in self.sellOrders:
-            print('Seller: {seller}, Item: {item}, Value: {value}'
+            print('\tSeller: {seller}, Item: {item}, Value: {value}'
                 .format(seller=sell.seller, item=sell.item.name, value=sell.value))
 
     def add_user(self,user):
@@ -40,6 +40,20 @@ class Market:
             self.sellOrders.insert(i, sell)
         else:
             return soldOrder
+
+    def cancelBuyOrder(self, order):
+        for i, o in enumerate(self.buyOrders):
+            if o == order:
+                self.buyOrders.pop(i)
+                return True
+        return False
+
+    def cancelSellOrder(self, order):
+        for i, o in enumerate(self.sellOrders):
+            if o == order:
+                self.sellOrders.pop(i)
+                return True
+        return False
 
     def _buyFulfillment(self, buy):
         for index, sell in enumerate(self.sellOrders):

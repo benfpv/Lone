@@ -3,6 +3,7 @@ import numpy as np
 import math
 import random
 import time
+from datetime import date, datetime
 
 from import_items import * 
 
@@ -48,4 +49,10 @@ if __name__ == '__main__':
     market.add_user(user2)
 
     user1.sell(market, 100, itemsList[0])
+    market.print_orders()
     user2.buy(market, 200, itemsList[2])
+    market.print_orders()
+    user2.buy(market, 200, itemsList[0])
+    market.print_orders()
+    user2.cancelBuy(market, user2.buyOrders[0])
+    market.print_orders()

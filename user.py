@@ -21,7 +21,7 @@ class User:
 				print("- User {name} bought {item} for {value}!" \
 				.format(name=self.name, item=item.name, value=bought.value))
 			else:
-				print("- User {name} is buying {item} for {value}!" \
+				print("- User {name} created buy order for {item} at {value}!" \
 				.format(name=self.name, item=item.name, value=value))
 		else:
 			print("- User {name} doesn't have enough money to buy {item} for {value}!" \
@@ -36,7 +36,7 @@ class User:
 				print("- User {name} sold {item} for {value}!" \
 				.format(name=self.name, item=item.name, value=sold.value))
 			else:
-				print("- User {name} is selling {item} for {value}!" \
+				print("- User {name} created sell order for {item} at {value}!" \
 				.format(name=self.name, item=item.name, value=value))
 		else:
 			print("- User {name} doesn't have that item {item} to sell!" \

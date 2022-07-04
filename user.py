@@ -1,6 +1,6 @@
 from market_logic import Market
 from order import BuyOrder, SellOrder
-from class_items import *
+from class_items import Item
 
 class User:
 	def __init__(self, userID, name, inventory = {}, money = 1000, ) -> None:

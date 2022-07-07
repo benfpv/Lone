@@ -15,28 +15,46 @@ from user import User
 def main():
     pass
 
+def gameLoop(market):
+    command = input("What would you like to do\n")
+    command = command.lower()
+    if command.lower() == "help":
+        pass
+    elif command.lower() == "select user":
+        pass
+    elif command.lower() == "open inventory":
+        pass
+    elif command.lower() == "Buy":
+        pass
+
+    switch = {
+        "h" : lambda switch: print([k for k in switch.keys()]),
+        "select user": select_user(market)
+    }
+
+    switch[command](switch)
+
+def select_user(market):
+    for user in market.users:
+        print(user)
+    name = input("Which user are you?\n")
+    while not name in market.users:
+        if name in market.users:
+            market.currentUser = market.users[name]
+        else:
+            name = input("Not a valid name, which user are you?\n")
+
 if __name__ == '__main__':
+    market = Market()    
+
+    user1 = User(1, "Ben", {itemsList[0].name: itemsList[0]}, 1000)
+    user2 = User(2, "Jeff Bezos", {itemsList[2].id: itemsList[2]}, 1000000)
+
+    market.add_user(user1)
+    market.add_user(user2)
+
+    gameLoop(market)
     """
-    main()
-    market = Market()
-
-    order1 = BuyOrder(100, itemsList[0], "Ben")
-    #order2 = BuyOrder(1000, "AMD", 1, "Jeff")
-    #order3 = BuyOrder(1, "AMD", 1, "Greg")
-    market.addBuyOrder(order1)
-    #market.addBuyOrder(order2)
-    #market.addBuyOrder(order3)
-
-    order1 = SellOrder(75, itemsList[1], "Ben")
-    #order2 = SellOrder(1000, "AMD", 1, "Jeff")
-    #order3 = SellOrder(1, "AMD", 1, "Greg")
-    market.addSellOrder(order1)
-    #market.addSellOrder(order2)
-    #market.addSellOrder(order3)
-
-    market.print_orders()
-    """
-    
     itemsListCsv = import_itemsList() 
     itemsList = objectify_itemsList(itemsListCsv) 
 
@@ -59,3 +77,4 @@ if __name__ == '__main__':
     market.print_orders()
     print('----- debug marketHistory -----');
     market.print_marketHistory();
+    """

@@ -8,9 +8,9 @@ from datetime import date, datetime
 
 from import_items import * 
 
-from market_logic import Market
-from order import BuyOrder, SellOrder
-from user import User
+from data.market import Market
+from data.order import BuyOrder, SellOrder
+from data.user import User
 
 class Game:
     def __init__(self):
@@ -64,7 +64,10 @@ class Game:
                 print("Valid items are:\n {}".format(itemNameList))
                 buyitem = input("What do you want to buy?\n")
             value = input("How much are you spending?\n")
-            while value > self.currentUser.money:
+            while not value.isnumeric():
+                print("Not a valid number\n")
+                value = input("How much are you spending?\n")
+            while int(value) > self.currentUser.money:
                 value = input("That's more money than you have. How much are you spending?\n")
             buyorder = BuyOrder(value, itemsDict[buyitem], self.currentUser)
             self.market.addBuyOrder(buyorder)
@@ -79,7 +82,7 @@ class Game:
                 print("That's not a valid item\n")
                 print("Valid items are:\n {}".format(inventoryList))
                 sellItem = input("What do you want to sell?\n")
-            value = input("How much are you spending?\n")
+            value = input("How much are you selling it for?\n")
             sellorder = SellOrder(value, itemsDict[sellItem], self.currentUser)
             self.market.addSellOrder(sellorder)
 

@@ -1,10 +1,10 @@
 import csv
 
-from class_items import Item
+from data.item import Item
 
 def import_itemsList():
     itemsList = [] 
-    with open('itemsList.csv', newline='') as csvfile:
+    with open('resources/itemsList.csv', newline='') as csvfile:
         itemsList_csv = csv.reader(csvfile, delimiter=',') 
         next(itemsList_csv)
         row_count = 0 

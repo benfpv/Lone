@@ -3,7 +3,7 @@ from order import BuyOrder, SellOrder
 from class_items import Item
 
 class User:
-	def __init__(self, userID, name, inventory = {}, money = 1000, ) -> None:
+	def __init__(self, userID, name, money = 1000, inventory = {} ) -> None:
 		self.userID = userID
 		self.name = name
 		self.inventory = inventory

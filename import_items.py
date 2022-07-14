@@ -6,6 +6,7 @@ def import_itemsList():
     itemsList = [] 
     with open('itemsList.csv', newline='') as csvfile:
         itemsList_csv = csv.reader(csvfile, delimiter=',') 
+        next(itemsList_csv)
         row_count = 0 
         for row in itemsList_csv:
             itemsList.append([str(row_count)]) 
@@ -15,10 +16,7 @@ def import_itemsList():
     return itemsList 
 
 def objectify_itemsList(itemsListCsv):
-    itemsList = [] 
+    itemsList = {} 
     for row in itemsListCsv:
-        itemsList.append(Item(row[0], row[1], row[2], row[3], row[4], row[5], row[6])) 
+        itemsList[row[1]]=(Item(row[0], row[1], row[2], row[3], row[4], row[5], row[6])) 
     return itemsList
-
-itemsListCsv = import_itemsList() 
-itemsList = objectify_itemsList(itemsListCsv)

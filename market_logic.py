@@ -6,7 +6,6 @@ class Market:
         self.sellOrders = sellOrders
         self.users = users
         self.marketHistory = marketHistory
-        self.currentUser = None
 
     def print_orders(self):
         print('### MARKET.PRINT_ORDERS() ###');

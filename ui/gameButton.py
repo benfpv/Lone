@@ -29,4 +29,5 @@ class Button:
 
     def click(self, game, mouse):
         if self.isOn(mouse[0],mouse[1]):
-            game.quit()
+            return True
+        return False

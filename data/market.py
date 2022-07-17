@@ -9,7 +9,7 @@ class Market:
 
     def print_orders(self):
         print('### MARKET.PRINT_ORDERS() ###');
-        print("- BUY ORDERS:")
+        print("- BUY ORDERS: ")
         for buy in self.buyOrders:
             print('\tBuyer: {buyer}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
                 .format(buyer=buy.buyer, item=buy.item.name, value=buy.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S")))
@@ -18,12 +18,15 @@ class Market:
             print('\tSeller: {seller}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
                 .format(seller=sell.seller, item=sell.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S")))
 
-    def add_user(self,user):
-        print('- User {user} has joined the market.'.format(user=user.name));
-        self.marketHistory.append(['[Users] User: {user}, Action: {action}, Date: {marketDate}, Time: {marketTime}'
-                .format(user=user.name, action='Joined the market', marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+    def add_user(self, user):
+        print('- User {username} has joined the market.'.format(username=user.name))
         self.users[user.name] = user
+        self.addUserJoinToMarketHistory(self.marketHistory, user)
     
+    def addUserJoinToMarketHistory(self, history, user):
+        history.append(['[Market] Username: {username}, Action: {action}, Date: {marketDate}, Time: {marketTime}'
+            .format(username=user.name, action='Joined the market', marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+
     def addBuyOrder(self, buy):
         boughtOrder = self._buyFulfillment(buy)
         if not boughtOrder:
@@ -31,12 +34,15 @@ class Market:
             while (i < len(self.buyOrders) and buy.value < self.buyOrders[i].value):
                 i += 1
             self.buyOrders.insert(i, buy)
-            self.marketHistory.append(['[Buy Order] User: {user}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
-                .format(user=buy.buyer, item=buy.item.name, value=buy.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+            self.addBuyOrderToHistory(self.marketHistory, buy)
             return
         else:
             self.users[boughtOrder.seller].sellOrderFulfilled(boughtOrder)
             return boughtOrder
+
+    def addBuyOrderToHistory(self, history, buy):
+        history.append(['[Market][Create Buy Order] User: {user}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
+            .format(user=buy.buyer, item=buy.item.name, value=buy.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
 
     def addSellOrder(self, sell):
         soldOrder = self._sellFulfillment(sell)
@@ -45,28 +51,37 @@ class Market:
             while (i < len(self.sellOrders) and sell.value > self.sellOrders[i].value):
                 i += 1
             self.sellOrders.insert(i, sell)
-            self.marketHistory.append(['[Sell Order] User: {user}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
-                .format(user=sell.seller, item=sell.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+            self.addSellOrderToHistory(self.marketHistory, sell)
         else:
             return soldOrder
+
+    def addSellOrderToHistory(self, history, sell):
+        history.append(['[Market][Create Sell Order] User: {user}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
+            .format(user=sell.seller, item=sell.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
 
     def cancelBuyOrder(self, order):
         for i, o in enumerate(self.buyOrders):
             if o == order:
                 self.buyOrders.pop(i)
-                self.marketHistory.append(['[Cancel Buy Order] User: {user}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
-                .format(user=o.buyer, item=o.item.name, value=o.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+                self.addCancelBuyOrderToHistory(self.marketHistory, o)
                 return True
         return False
+
+    def addCancelBuyOrderToMarketHistory(self, history, order):
+        history.append(['[Market][Cancel Buy Order] User: {user}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
+            .format(user=order.buyer, item=order.item.name, value=order.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
 
     def cancelSellOrder(self, order):
         for i, o in enumerate(self.sellOrders):
             if o == order:
                 self.sellOrders.pop(i)
-                self.marketHistory.append(['[Cancel Sell Order] User: {user}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
-                .format(user=o.seller, item=o.item.name, value=o.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+                self.addCancelSellOrderToHistory(self.marketHistory, o)
                 return True
         return False
+
+    def addCancelSellOrderToMarketHistory(self, history, order):
+        history.append(['[Market][Cancel Sell Order] User: {user}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
+            .format(user=order.seller, item=order.item.name, value=order.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
 
     def _buyFulfillment(self, buy):
         for index, sell in enumerate(self.sellOrders):
@@ -75,11 +90,14 @@ class Market:
                 print("- ORDER FULFILLED:")
                 print('\tBuyer: {buyer}, Seller: {seller}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
                     .format(buyer=buy.buyer, seller=sell.seller, item=buy.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S")))
-                self.marketHistory.append(['[Buy Order Fulfillment] Buyer: {buyer}, Seller: {seller}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
-                .format(buyer=buy.buyer, seller=sell.seller, item=buy.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+                self.addBuyFulfillmentToHistory(self.marketHistory, buy, sell)
                 return self.sellOrders.pop(index)
         return
-        
+
+    def addBuyFulfillmentToHistory(self, history, buy, sell):
+        history.append(['[Market][Fulfill Buy Order] Buyer: {buyer}, Seller: {seller}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
+            .format(buyer=buy.buyer, seller=sell.seller, item=buy.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+    
     def _sellFulfillment(self, sell):
         for index, buy in enumerate(self.buyOrders):
             if sell.item.name == buy.item.name and \
@@ -87,13 +105,16 @@ class Market:
                 print("- ORDER FULFILLED:")
                 print('\tBuyer: {buyer}, Seller:{seller}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
                     .format(buyer=buy.buyer, seller=sell.seller, item=buy.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S")))
-                self.marketHistory.append(['[Sell Order Fulfillment] Buyer: {buyer}, Seller: {seller}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
-                .format(buyer=buy.buyer, seller=sell.seller, item=buy.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+                self.addSellFulfillmentToHistory(self.marketHistory, buy, sell)
                 return self.buyOrders.pop(index)
         return
-
-    def print_marketHistory(self):
-        print('### MARKET.PRINT_MARKETHISTORY() ###');
+    
+    def addSellFulfillmentToHistory(self, history, buy, sell):
+        history.append(['[Market][Fulfill Sell Order] Buyer: {buyer}, Seller: {seller}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
+            .format(buyer=buy.buyer, seller=sell.seller, item=buy.item.name, value=sell.value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+    
+    def printMarketHistory(self):
+        print('### MARKET.PRINTMARKETHISTORY() ###');
         print("- Market History:")
         for i in self.marketHistory:
             print(i);

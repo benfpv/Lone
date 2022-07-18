@@ -60,17 +60,17 @@ class User:
     def buyOrderFulfilled(self, order: BuyOrder):
         self.inventory[order.item.id] = order.item
         print("- User {name} bought {item} for {value}!" \
-                .format(name=self.name, item=order.item.name, value=order.value))
+            .format(name=self.name, item=order.item.name, value=order.value))
         self.log.append(['[User][Fulfill Buy Order] User: {buyer}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
-                .format(buyer=self.name, item=item.name, value=value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+            .format(buyer=self.name, item=item.name, value=value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
 
     def sellOrderFulfilled(self, order: SellOrder):
         self.money += order.value
         self.inventory.pop(order.item.name)
         print("- User {name} sold {item} for {value}!" \
-                .format(name=self.name, item=order.item.name, value=order.value))
+            .format(name=self.name, item=order.item.name, value=order.value))
         self.log.append(['[User][Fulfill Sell Order] User: {seller}, Item: {item}, Value: {value}, Date: {marketDate}, Time: {marketTime}'
-                .format(seller=self.name, item=item.name, value=value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
+            .format(seller=self.name, item=item.name, value=value, marketDate=date.today().strftime("%d %m %Y"), marketTime=datetime.now().strftime("%H %M %S"))])
 
     def cancelBuy(self, market: Market, order):
         if order in self.buyOrders:

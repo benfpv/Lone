@@ -1,3 +1,4 @@
+"""
 from re import M
 from traceback import print_exc
 import numpy as np
@@ -5,15 +6,21 @@ import math
 import random
 import time
 from datetime import date, datetime
-
+"""
 from import_items import * 
-
 from data.market import Market
 from data.order import BuyOrder, SellOrder
 from data.user import User
+import pygame as game
+from ui.homeScreen import HomeScreen
 
-class Game:
+class MainGame:
     def __init__(self):
+        res = (720,720)                     # screen resolution
+        self.screen = game.display.set_mode(res) # opens up a window
+
+        self.home = HomeScreen(game, self.screen)
+
         self.exit = False
         self.market = Market()
 
@@ -28,6 +35,7 @@ class Game:
     def printCommands(self):
         print("Commands:\n\t-help\n\t-select user\n\t-inventory\n\t-buy\n\t-sell")    
 
+    """
     def gameLoop(self):
         command = input("What would you like to do\n")
         command = command.lower()
@@ -42,7 +50,37 @@ class Game:
         else:
             print("That's not a option. Available commands are:\n")
             self.printCommands()
-    
+    """
+    def gameLoop(self):
+        # stores the (x,y) coordinates into the variable as a tuple
+        mouse = game.mouse.get_pos()
+
+        # fills the screen with a color
+        self.screen.fill((60,25,60))
+
+        # if mouse is hovered on a button it
+        # changes to lighter shade 
+        self.home.draw(mouse)
+
+        # updates the frames of the game
+        game.display.update()
+        
+        for ev in game.event.get():
+                
+            #checks if a mouse is clicked
+            if ev.type == game.MOUSEBUTTONDOWN:
+                
+                #if the mouse is clicked on the
+                # button the game is terminated
+                if self.home.click(mouse):
+                    self.quit_game()
+            
+            if ev.type == game.QUIT:
+                game.quit()
+                    
+    def quit_game(self):
+        self.exit = True
+        #game.quit()
 
     def select_user(self):
         for user in self.market.users:
@@ -89,9 +127,10 @@ class Game:
 
 if __name__ == '__main__':    
 
+    game.init()                         # initializing the constructor
     itemsListCsv = import_itemsList() 
     itemsDict = objectify_itemsList(itemsListCsv)
-    game = Game()
+    mainGame = MainGame()
     
-    while not game.exit:
-        game.gameLoop()
+    while not mainGame.exit:
+        mainGame.gameLoop()

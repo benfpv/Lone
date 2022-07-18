@@ -1,4 +1,3 @@
-"""
 from re import M
 from traceback import print_exc
 import numpy as np
@@ -6,36 +5,40 @@ import math
 import random
 import time
 from datetime import date, datetime
-"""
+
 from import_items import * 
+
 from data.market import Market
 from data.order import BuyOrder, SellOrder
 from data.user import User
-import pygame as game
-from ui.homeScreen import HomeScreen
 
-class MainGame:
+debugMarketBool = True
+
+class Game:
     def __init__(self):
-        res = (720,720)                     # screen resolution
-        self.screen = game.display.set_mode(res) # opens up a window
-
-        self.home = HomeScreen(game, self.screen)
-
         self.exit = False
         self.market = Market()
 
         user1 = User(1, "Ben", 1000, {"apple", itemsDict["apple"]})
-        user2 = User(2, "Jeff Bezos", 1000000)
+        user2 = User(2, "Jeff Bezos", 1000000, {'pineapple', itemsDict['pineapple']})
 
-        self.market.add_user(user1)
-        self.market.add_user(user2)
+        if debugMarketBool:
+            self.market.add_user(user1)
+            self.market.add_user(user2)
+
+            user1.buy(self.market, 500, itemsDict['apple'])
+            user2.buy(self.market, 100, itemsDict['banana'])
+            user1.sell(self.market, 100, itemsDict['apple'])
+            user2.sell(self.market, 100, itemsDict['pineapple'])
+            user2.cancelSell(self.market, 100, itemsDict['pineapple'])
+
+            self.market.printMarketHistory()
         
         self.currentUser = user1
 
     def printCommands(self):
         print("Commands:\n\t-help\n\t-select user\n\t-inventory\n\t-buy\n\t-sell")    
 
-    """
     def gameLoop(self):
         command = input("What would you like to do\n")
         command = command.lower()
@@ -50,37 +53,6 @@ class MainGame:
         else:
             print("That's not a option. Available commands are:\n")
             self.printCommands()
-    """
-    def gameLoop(self):
-        # stores the (x,y) coordinates into the variable as a tuple
-        mouse = game.mouse.get_pos()
-
-        # fills the screen with a color
-        self.screen.fill((60,25,60))
-
-        # if mouse is hovered on a button it
-        # changes to lighter shade 
-        self.home.draw(mouse)
-
-        # updates the frames of the game
-        game.display.update()
-        
-        for ev in game.event.get():
-                
-            #checks if a mouse is clicked
-            if ev.type == game.MOUSEBUTTONDOWN:
-                
-                #if the mouse is clicked on the
-                # button the game is terminated
-                if self.home.click(mouse):
-                    self.quit_game()
-            
-            if ev.type == game.QUIT:
-                game.quit()
-                    
-    def quit_game(self):
-        self.exit = True
-        #game.quit()
 
     def select_user(self):
         for user in self.market.users:
@@ -124,13 +96,11 @@ class MainGame:
             sellorder = SellOrder(value, itemsDict[sellItem], self.currentUser)
             self.market.addSellOrder(sellorder)
 
-
 if __name__ == '__main__':    
 
-    game.init()                         # initializing the constructor
     itemsListCsv = import_itemsList() 
     itemsDict = objectify_itemsList(itemsListCsv)
-    mainGame = MainGame()
+    game = Game()
     
-    while not mainGame.exit:
-        mainGame.gameLoop()
+    while not game.exit:
+        game.gameLoop()

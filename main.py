@@ -3,7 +3,7 @@ from data.market import Market
 from data.order import BuyOrder, SellOrder
 from data.user import User
 import pygame as game
-from ui.homeScreen import HomeScreen
+from ui.userInterface import *
 
 class MainGame:
     def __init__(self):
@@ -15,7 +15,7 @@ class MainGame:
         # Init Market
         self.market = Market()
         # Init UI
-        self.home = HomeScreen(game, self.screen)
+        self.userInterface = UserInterface(game, self.screen)
         
         # Debug Stuff
         # print(self.itemsListCsv)
@@ -59,7 +59,7 @@ class MainGame:
 
         # if mouse is hovered on a button it
         # changes to lighter shade 
-        self.home.draw(mouse)
+        self.userInterface.draw(mouse)
 
         # updates the frames of the game
         game.display.update()
@@ -71,7 +71,7 @@ class MainGame:
                 
                 #if the mouse is clicked on the
                 # button the game is terminated
-                if self.home.click(mouse):
+                if self.userInterface.click(mouse):
                     self.quit_game()
             
             if ev.type == game.QUIT:

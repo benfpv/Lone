@@ -1,12 +1,3 @@
-"""
-from re import M
-from traceback import print_exc
-import numpy as np
-import math
-import random
-import time
-from datetime import date, datetime
-"""
 from import_items import * 
 from data.market import Market
 from data.order import BuyOrder, SellOrder
@@ -18,18 +9,26 @@ class MainGame:
     def __init__(self):
         res = (720,720)                     # screen resolution
         self.screen = game.display.set_mode(res) # opens up a window
-
-        self.home = HomeScreen(game, self.screen)
-
         self.exit = False
+        # Init Items list
+        self.itemsDict = import_objectify_itemsList()
+        # Init Market
         self.market = Market()
+        # Init UI
+        self.home = HomeScreen(game, self.screen)
+        
+        # Debug Stuff
+        # print(self.itemsListCsv)
+        # print(self.itemsDict["apple"].name)
+        # exit()
 
-        user1 = User(1, "Ben", 1000, {"apple", itemsDict["apple"]})
+        # Init Users
+        user1 = User(1, "Ben", 1000, {"apple", self.itemsDict["apple"]})
         user2 = User(2, "Jeff Bezos", 1000000)
-
+        
+        # Add users to market
         self.market.add_user(user1)
         self.market.add_user(user2)
-        
         self.currentUser = user1
 
     def printCommands(self):
@@ -128,8 +127,6 @@ class MainGame:
 if __name__ == '__main__':    
 
     game.init()                         # initializing the constructor
-    itemsListCsv = import_itemsList() 
-    itemsDict = objectify_itemsList(itemsListCsv)
     mainGame = MainGame()
     
     while not mainGame.exit:

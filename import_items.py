@@ -2,6 +2,11 @@ import csv
 
 from data.item import Item
 
+def import_objectify_itemsList():
+    itemsListCsv = import_itemsList()
+    itemsDict objectify_itemsList(itemsListCsv)
+    return itemsDict
+    
 def import_itemsList():
     itemsList = [] 
     with open('resources/itemsList.csv', newline='') as csvfile:
@@ -12,8 +17,8 @@ def import_itemsList():
             itemsList.append([str(row_count)]) 
             for i in row:
                 itemsList[row_count].append(i) 
-            row_count += 1 
-    return itemsList 
+            row_count += 1
+    return itemsList
 
 def objectify_itemsList(itemsListCsv):
     itemsList = {} 

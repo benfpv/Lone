@@ -4,7 +4,7 @@ from data.item import Item
 
 def import_objectify_itemsList():
     itemsListCsv = import_itemsList()
-    itemsDict objectify_itemsList(itemsListCsv)
+    itemsDict = objectify_itemsList(itemsListCsv)
     return itemsDict
     
 def import_itemsList():

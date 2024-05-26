@@ -15,22 +15,18 @@ class MainGame:
         self.itemsDict = import_objectify_itemsList()
         # Init Market
         self.market = Market()
-        # Init UI
-        self.userInterface = UserInterface(game, self.screen)
-        
-        # Debug Stuff
-        # print(self.itemsListCsv)
-        # print(self.itemsDict["apple"].name)
-        # exit()
-
         # Init Users
-        user1 = User(1, "Ben", 1000, {"apple", self.itemsDict["apple"]})
-        user2 = User(2, "Jeff Bezos", 1000000)
+        self.users = []
+        self.users.append(User(1, "Ben", 1000, {"apple", self.itemsDict["apple"]}))
+        self.users.append(User(2, "Jeff Bezos", 1000000))
+        player_index = 0
+        len_users = len(self.users)
+        # Init UI
+        self.userInterface = UserInterface(game, self.screen, self.users, player_index)
         
         # Add users to market
-        self.market.add_user(user1)
-        self.market.add_user(user2)
-        self.currentUser = user1
+        for i in range(len_users): 
+            self.market.add_user(self.users[i])
 
     def printCommands(self):
         print("Commands:\n\t-help\n\t-select user\n\t-inventory\n\t-buy\n\t-sell")    

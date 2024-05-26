@@ -8,7 +8,8 @@ from ui.userInterface import *
 class MainGame:
     def __init__(self):
         res = (720,720)                     # screen resolution
-        self.screen = game.display.set_mode(res) # opens up a window
+        self.screen = game.display.set_mode(res)# opens up a window
+        self.screen.fill((60,25,60)) # fill background of screen
         self.exit = False
         # Init Items list
         self.itemsDict = import_objectify_itemsList()
@@ -55,25 +56,17 @@ class MainGame:
         mouse = game.mouse.get_pos()
 
         # fills the screen with a color
-        self.screen.fill((60,25,60))
-
-        # if mouse is hovered on a button it
-        # changes to lighter shade 
-        self.userInterface.draw(mouse)
+        #self.screen.fill((60,25,60))
+        self.userInterface.update_buttons_hover(mouse)
 
         # updates the frames of the game
         game.display.update()
         
         for ev in game.event.get():
-                
-            #checks if a mouse is clicked
             if ev.type == game.MOUSEBUTTONDOWN:
-                
-                #if the mouse is clicked on the
-                # button the game is terminated
-                if self.userInterface.click(mouse):
-                    self.quit_game()
+                self.userInterface.update_mouseclick(mouse) # check ui
             
+            # to quit game, call self.quit_game() in this loop
             if ev.type == game.QUIT:
                 game.quit()
                     

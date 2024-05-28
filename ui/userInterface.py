@@ -15,6 +15,11 @@ class UserInterface:
         self.homepage = Homepage(self.game, self.width, self.height, smallfont, color, color_light, color_hover)
         self.current_page = self.homepage
         
+        # buttons
+        self.buttonIsClicked = False
+        self.buttonClicked = []
+        self.buttonIndex = -1
+        
         # Global texts
         self.globalTexts = [] # Need this
         self.globalTextsPositions = [] # Need this
@@ -30,13 +35,17 @@ class UserInterface:
         return 
     
     def update_mouseclick(self, mouse):
-        buttonIsClicked, buttonIndex = self.check_mouseclick(mouse)
-        if buttonIsClicked: # mouse button click event
-            buttonClicked = self.current_page.buttons[buttonIndex]
-            print("- buttonIndex: {}, buttonClicked: {}".format(buttonIndex, buttonClicked))
-            pass
+        self.buttonIsClicked, self.buttonIndex = self.check_mouseclick(mouse)
+        if self.buttonIsClicked: # mouse button click event
+            self.buttonClicked = self.current_page.buttons[self.buttonIndex]
+            #print("- buttonIndex: {}, buttonClicked: {}".format(self.buttonIndex, self.buttonClicked))
         return
         
+    def reset_buttons(self):
+        self.buttonIsClicked = False
+        self.buttonClicked = []
+        self.buttonIndex = -1
+    
     def update_global_texts(self, users, player_index):
         playername = users[player_index].name
         playermoney = users[player_index].money
@@ -73,7 +82,8 @@ class UserInterface:
         return False, buttonIndex
     
 class Homepage:
-    def __init__(self, game, width, height, smallfont, color, color_light, color_hover):
+    def __init__(self, game, width, height, smallfont, color, color_light, color_hover, name = ""):
+        self.name = "homepage"
         # Texts
         self.texts = [] # Need this
         self.textsPositions = [] # Need this

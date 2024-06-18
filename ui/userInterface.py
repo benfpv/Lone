@@ -12,7 +12,7 @@ class UserInterface:
         self.height = screen.get_height() # stores the height of the screen
         
         # Pages - every page needs self.buttons even if it is empty [].
-        self.homepage = Homepage(self.game, self.width, self.height, smallfont, color, color_light, color_hover)
+        self.homepage = Homepage(self.game, self.width, self.height, smallfont, color, color_light, color_hover, "homepage")
         self.current_page = self.homepage
         
         # buttons
@@ -83,7 +83,6 @@ class UserInterface:
     
 class Homepage:
     def __init__(self, game, width, height, smallfont, color, color_light, color_hover, name = ""):
-        self.name = "homepage"
         # Texts
         self.texts = [] # Need this
         self.textsPositions = [] # Need this

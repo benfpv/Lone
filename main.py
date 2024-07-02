@@ -19,14 +19,18 @@ class MainGame:
         self.users = []
         self.users.append(User(1, "Ben", 1000, {"apple", self.itemsDict["apple"]}))
         self.users.append(User(2, "Jeff Bezos", 1000000))
-        player_index = 0
+        self.playerIndex = 0
+        self.currentUser = self.users[self.playerIndex] # default
         len_users = len(self.users)
         # Init UI
-        self.userInterface = UserInterface(game, self.screen, self.users, player_index)
+        self.userInterface = UserInterface(game, self.screen, self.users, self.playerIndex)
         
         # Add users to market
         for i in range(len_users): 
             self.market.add_user(self.users[i])
+            
+        # GAME START
+        print("----- GAME START -----")
 
     def printCommands(self):
         print("Commands:\n\t-help\n\t-select user\n\t-inventory\n\t-buy\n\t-sell")    
@@ -61,10 +65,22 @@ class MainGame:
         for ev in game.event.get():
             if ev.type == game.MOUSEBUTTONDOWN:
                 self.userInterface.update_mouseclick(mouse) # check ui
-            
             # to quit game, call self.quit_game() in this loop
             if ev.type == game.QUIT:
                 game.quit()
+        
+        if (self.userInterface.buttonIsClicked):
+            if (self.userInterface.current_page.name == "homepage"):
+                print(self.userInterface.buttonClicked.text)
+                if (self.userInterface.buttonClicked.text == "Buy"): #buy
+                    self.buy()
+                elif (self.userInterface.buttonClicked.text == "Sell"): #sell
+                    self.sell()
+                elif (self.userInterface.buttonClicked.text == "Inventory"): #select user
+                    self.select_user()
+                elif (self.userInterface.buttonClicked.text == "Quit"): # quit
+                    exit()
+            self.userInterface.reset_buttons()
                     
     def quit_game(self):
         self.exit = True
